@@ -1,17 +1,10 @@
 [package]
-name = "sigmaos-monitor"
+name = "sigmaos_monitor"
 version = "0.1.0"
 edition = "2021"
-authors = ["SigmaOS Project"]
-description = "Display monitor"
-license = "GPL-3.0-or-later"
-repository = "https://github.com/AaryanSinghChauhan09/SigmaOS-monitor"
-readme = "README.md"
-keywords = ["monitor", "display", "screen"]
-categories = ["hardware-support"]
+license = "MIT"
+description = "SigmaOS monitor component inspired by Linux Mint / Omarchy / Arch Linux."
 
-[dependencies]
-sigmaos-kernel = { version = "0.1", path = "../SigmaOS-kernel" }
-
-[profile.release]
-opt-level = 3
+[lib]
+name = "sigmaos_monitor"
+path = "src/lib.rs"
