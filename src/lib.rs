@@ -10,6 +10,9 @@
 use std::fmt;
 use std::collections::BTreeMap;
 
+/// Display monitor configuration and power state model.
+pub mod monitor;
+
 /// Errors for `RegistryError` operations. Fail-fast: invalid input is rejected.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum RegistryError {

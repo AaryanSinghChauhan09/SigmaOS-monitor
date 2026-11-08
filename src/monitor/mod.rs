@@ -11,6 +11,26 @@ pub enum PowerState {
     Off,
 }
 
+/// Invalid configuration values rejected before they reach a display backend.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum MonitorConfigError {
+    ResolutionOutOfRange,
+    RefreshRateOutOfRange,
+    ZeroScaleFactor,
+}
+
+impl std::fmt::Display for MonitorConfigError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::ResolutionOutOfRange => write!(f, "resolution must be between 1x1 and 7680x4320"),
+            Self::RefreshRateOutOfRange => write!(f, "refresh rate must be between 24Hz and 360Hz"),
+            Self::ZeroScaleFactor => write!(f, "scale factor must be greater than zero"),
+        }
+    }
+}
+
+impl std::error::Error for MonitorConfigError {}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct MonitorConfig {
     pub width: u32,
@@ -27,6 +47,22 @@ impl Default for MonitorConfig {
             refresh_rate: 60,
             scale_factor: 1,
         }
+    }
+}
+
+impl MonitorConfig {
+    /// Validate a configuration before passing it to a display backend.
+    pub fn validate(&self) -> Result<(), MonitorConfigError> {
+        if self.width == 0 || self.height == 0 || self.width > 7680 || self.height > 4320 {
+            return Err(MonitorConfigError::ResolutionOutOfRange);
+        }
+        if !(24..=360).contains(&self.refresh_rate) {
+            return Err(MonitorConfigError::RefreshRateOutOfRange);
+        }
+        if self.scale_factor == 0 {
+            return Err(MonitorConfigError::ZeroScaleFactor);
+        }
+        Ok(())
     }
 }
 
@@ -58,6 +94,16 @@ impl Monitor {
             power_state: PowerState::On,
             brightness: 100,
         }
+    }
+
+    /// Construct a monitor only when all supplied settings pass validation.
+    pub fn try_with_config(
+        id: u32,
+        name: &'static str,
+        config: MonitorConfig,
+    ) -> Result<Self, MonitorConfigError> {
+        config.validate()?;
+        Ok(Self::with_config(id, name, config))
     }
 
     // Commands (CQS)
