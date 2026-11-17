@@ -3,12 +3,12 @@ name = "SigmaOS-monitor"
 tier = 2
 stability = "scaffold"
 language = "rust"
-description = "monitor component"
+description = "SigmaOS display monitor configuration and management"
 upstream = []
 
 [contract]
 provides = ["component"]
-depends_on = []
+depends_on = ["SigmaOS-system"]
 
 [maturity]
 status = "Scaffold"
