@@ -7,6 +7,9 @@
 
 #![forbid(unsafe_code)]
 
+/// System monitor daemon module.
+pub mod sigmamonitor;
+
 use std::fmt;
 use std::collections::BTreeMap;
 
