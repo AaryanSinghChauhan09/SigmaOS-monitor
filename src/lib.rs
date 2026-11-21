@@ -124,3 +124,6 @@ impl Component {
         Self { name: "SigmaOS Component" }
     }
 }
+
+/// Module extracted from the SigmaOS-system monolith.
+pub mod sysmon_framework;

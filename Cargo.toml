@@ -8,3 +8,7 @@ description = "SigmaOS monitor component inspired by Linux Mint / Omarchy / Arch
 [lib]
 name = "sigmaos_monitor"
 path = "src/lib.rs"
+
+[dependencies]
+sigmaos-component-core = { git = "https://github.com/AaryanSinghChauhan09/SigmaOS-component-core" }
+log = "0.4"
